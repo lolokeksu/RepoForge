@@ -1,5 +1,7 @@
 # Privacy Policy
 
+[English](PRIVACY.md) | [Русский](PRIVACY.ru.md)
+
 RepoForge works fully offline.
 
 The app does not collect, upload, sell, or transmit user data.

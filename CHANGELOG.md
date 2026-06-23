@@ -1,5 +1,7 @@
 # Changelog
 
+[English](CHANGELOG.md) | [Русский](CHANGELOG.ru.md)
+
 ## 1.0
 
 Initial public clean release.

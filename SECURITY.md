@@ -1,5 +1,7 @@
 # Security
 
+[English](SECURITY.md) | [Русский](SECURITY.ru.md)
+
 RepoForge is designed to create clean project archives while excluding common build artifacts, local files, signing keys, and secrets.
 
 ## Excluded sensitive files

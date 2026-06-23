@@ -1,5 +1,7 @@
 # RepoForge
 
+[English](README.md) | [Русский](README.ru.md)
+
 **RepoForge** is a compact Android app for creating clean ZIP archives of project source code.
 
 It is designed for preparing projects for AI audit, GitHub review, and safe local backups without build trash, temporary files, APK outputs, local machine paths, signing keys, or common secret files.
