@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.RepoForge" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:colorAccent">#2DD4FF</item>
+        <item name="android:windowBackground">#070B12</item>
+    </style>
+</resources>

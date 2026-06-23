@@ -1,0 +1,52 @@
+# Gradle / Android build output
+.gradle/
+build/
+app/build/
+**/build/
+
+# Android local config
+local.properties
+
+# APK / release artifacts
+*.apk
+*.aab
+*.ap_
+*.idsig
+
+# Archives
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Signing / secrets
+*.jks
+*.keystore
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+.env
+.env.local
+secrets.properties
+google-services.json
+service-account.json
+
+# OS
+.DS_Store
+Thumbs.db
