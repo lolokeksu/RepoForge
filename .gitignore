@@ -50,3 +50,9 @@ service-account.json
 # OS
 .DS_Store
 Thumbs.db
+
+# Release signing
+keystore.properties
+*.jks
+*.keystore
+app/build.gradle.kts.bak
