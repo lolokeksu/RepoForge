@@ -1,0 +1,57 @@
+name: Feature request
+description: Suggest a RepoForge improvement / Предложить улучшение RepoForge
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a practical improvement for RepoForge.
+
+        Русский: предложите практичное улучшение RepoForge.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow problem should this feature solve?
+      placeholder: "I want to prepare project archives faster because..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature clearly.
+      placeholder: "Add a button that..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of RepoForge is related?
+      options:
+        - UI / UX
+        - Archive modes
+        - Exclusion rules
+        - Security check
+        - AI readiness
+        - History
+        - Output / sharing
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Any simpler solution or workaround?
+      placeholder: "A simpler option would be..."
+    validations:
+      required: false

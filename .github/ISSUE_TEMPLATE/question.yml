@@ -1,0 +1,37 @@
+name: Question
+description: Ask a RepoForge usage question / Задать вопрос по использованию RepoForge
+title: "[Question] "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask a clear RepoForge usage question.
+
+        Русский: задайте понятный вопрос по использованию RepoForge.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What do you want to know?
+      placeholder: "How do I create an AI Audit archive?"
+    validations:
+      required: true
+
+  - type: input
+    id: app_version
+    attributes:
+      label: RepoForge version
+      placeholder: "1.0"
+    validations:
+      required: false
+
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android version
+      placeholder: "Realme GT Neo 5 SE, Android 13"
+    validations:
+      required: false

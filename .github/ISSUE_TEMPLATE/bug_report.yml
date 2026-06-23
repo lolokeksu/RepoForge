@@ -1,0 +1,105 @@
+name: Bug report
+description: Report a reproducible RepoForge bug / Сообщить о воспроизводимой ошибке RepoForge
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+
+        Please describe the issue clearly and include exact reproduction steps.
+
+        Русский: опишите проблему понятно и добавьте точные шаги воспроизведения.
+
+  - type: input
+    id: app_version
+    attributes:
+      label: RepoForge version
+      description: Open RepoForge and write the visible app version.
+      placeholder: "1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: android_version
+    attributes:
+      label: Android version
+      description: Device Android version.
+      placeholder: "Android 13"
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      description: Device brand and model.
+      placeholder: "Realme GT Neo 5 SE / RMX3700"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: archive_mode
+    attributes:
+      label: Archive mode
+      description: Which mode was used when the bug happened?
+      options:
+        - AI Audit
+        - GitHub Clean
+        - Backup Safe
+        - Not related to archive mode
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Write exact steps.
+      placeholder: |
+        1. Open RepoForge
+        2. Tap SELECT SOURCE
+        3. Select project folder
+        4. Tap SCAN SOURCE
+        5. Tap BUILD PACKAGE
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+      placeholder: "RepoForge should create a ZIP archive in Downloads/RepoForge."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+      placeholder: "RepoForge shows an error / does not create a ZIP / crashes."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or copied summary
+      description: Paste RepoForge COPY SUMMARY output, error text, or relevant log.
+      render: text
+      placeholder: "Paste copied summary or error text here."
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Attach screenshots if the issue is visual.
+      placeholder: "Drag and drop screenshots here."
+    validations:
+      required: false
