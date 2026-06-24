@@ -52,6 +52,9 @@ import java.util.zip.ZipOutputStream;
 
 public final class MainActivity extends Activity {
     private static final int REQUEST_TREE = 7101;
+    private static final String APP_VERSION = "1.0.1";
+    private static final String APP_PACKAGE = "app.repoforge";
+
 
     private static final int BASE_BG = Color.rgb(7, 11, 18);
     private static final int CARD_BG = Color.rgb(10, 16, 25);
@@ -180,6 +183,8 @@ public final class MainActivity extends Activity {
         resultPanel = createResultCard();
         root.addView(resultPanel);
         addGap(root, 12);
+        root.addView(createAboutCard());
+        addGap(root, 12);
         root.addView(createSupportCard());
         addGap(root, 12);
         root.addView(createLogCard());
@@ -211,7 +216,7 @@ public final class MainActivity extends Activity {
         addGapHorizontal(chips, 8);
         chips.addView(chip("NO ROOT"));
         addGapHorizontal(chips, 8);
-        chips.addView(chip("v1.0"));
+        chips.addView(chip("v" + APP_VERSION));
         card.addView(chips);
         return card;
     }
@@ -300,6 +305,29 @@ public final class MainActivity extends Activity {
         addGapHorizontal(row1, 10);
         row1.addView(promptButton);
         card.addView(row1);
+        return card;
+    }
+
+
+    private View createAboutCard() {
+        LinearLayout card = panel("ABOUT");
+        card.addView(textBody("RepoForge v" + APP_VERSION + " · " + APP_PACKAGE, TEXT_MAIN, 14));
+        addGap(card, 8);
+        card.addView(textBody("Offline project ZIP packager for AI audit, GitHub review and safe local backup.", TEXT_MUTED, 14));
+        addGap(card, 8);
+        card.addView(textMono("No root · No internet · No analytics · Local processing only", TEXT_MUTED, 11, true));
+        addGap(card, 12);
+
+        LinearLayout row1 = row(Gravity.START);
+        TextView copyInfoButton = button("COPY APP INFO", false);
+        TextView copyNotesButton = button("COPY UPDATE NOTES", false);
+        copyInfoButton.setOnClickListener(v -> copyAppInfo());
+        copyNotesButton.setOnClickListener(v -> copyUpdateNotes());
+        row1.addView(copyInfoButton);
+        addGapHorizontal(row1, 10);
+        row1.addView(copyNotesButton);
+        card.addView(row1);
+
         return card;
     }
 
@@ -658,8 +686,8 @@ public final class MainActivity extends Activity {
     private void startScanOnly() {
         if (busy) return;
         if (selectedTreeUri == null) {
-            appendLog("Select source root first");
-            setStatus("Source root is not selected");
+            appendLog("Select a project folder first");
+            setStatus("Select a project folder before continuing");
             return;
         }
 
@@ -709,8 +737,9 @@ public final class MainActivity extends Activity {
                 mainHandler.post(() -> {
                     busy = false;
                     scanPreviewReady = false;
-                    setStatus("Failed: " + safeMessage(error));
-                    appendLog("Scan error: " + safeMessage(error));
+                    String friendly = friendlyErrorMessage(error);
+                    setStatus("Failed: " + friendly);
+                    appendLog("Scan error: " + friendly);
                     renderAll();
                 });
             }
@@ -720,8 +749,8 @@ public final class MainActivity extends Activity {
     private void startZipBuild() {
         if (busy) return;
         if (selectedTreeUri == null) {
-            appendLog("Select source root first");
-            setStatus("Source root is not selected");
+            appendLog("Select a project folder first");
+            setStatus("Select a project folder before continuing");
             return;
         }
 
@@ -764,8 +793,9 @@ public final class MainActivity extends Activity {
             } catch (Exception error) {
                 mainHandler.post(() -> {
                     busy = false;
-                    setStatus("Failed: " + safeMessage(error));
-                    appendLog("Error: " + safeMessage(error));
+                    String friendly = friendlyErrorMessage(error);
+                    setStatus("Failed: " + friendly);
+                    appendLog("Error: " + friendly);
                     renderAll();
                 });
             }
@@ -1055,6 +1085,39 @@ public final class MainActivity extends Activity {
         getContentResolver().update(uri, values, null, null);
     }
 
+
+    private void copyAppInfo() {
+        StringBuilder text = new StringBuilder();
+        text.append("RepoForge\n");
+        text.append("Version: ").append(APP_VERSION).append("\n");
+        text.append("Package: ").append(APP_PACKAGE).append("\n");
+        text.append("Android: 10+\n");
+        text.append("Root: not required\n");
+        text.append("Internet: not required\n");
+        text.append("Purpose: clean ZIP archives for AI audit, GitHub review and safe local backup.\n");
+        ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        manager.setPrimaryClip(ClipData.newPlainText("RepoForge app info", text.toString()));
+        Toast.makeText(this, "App info copied", Toast.LENGTH_SHORT).show();
+    }
+
+    private void copyUpdateNotes() {
+        String notes = "RepoForge v" + APP_VERSION + "\n\n"
+                + "Maintenance update.\n\n"
+                + "Added:\n"
+                + "- visible app version in the interface\n"
+                + "- About section\n"
+                + "- Copy app info action\n"
+                + "- Copy update notes action\n"
+                + "- clearer folder access error messages\n"
+                + "- improved AI readiness wording\n\n"
+                + "Fixed:\n"
+                + "- minor UI wording issues\n"
+                + "- archive mode descriptions polished";
+        ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        manager.setPrimaryClip(ClipData.newPlainText("RepoForge update notes", notes));
+        Toast.makeText(this, "Update notes copied", Toast.LENGTH_SHORT).show();
+    }
+
     private void copyReadiness() {
         if (!hasScanState()) return;
         StringBuilder text = new StringBuilder();
@@ -1247,7 +1310,7 @@ public final class MainActivity extends Activity {
 
     private String buildReadinessText() {
         if (!hasScanState()) {
-            return "Readiness: waiting for scan\nMode: " + activeMode.title + "\nNext: run SCAN SOURCE";
+            return "Readiness: waiting for scan\nMode: " + activeMode.title + "\nNext: select a project folder, then run SCAN SOURCE";
         }
         return buildReadinessTextFor(totalFiles, totalBytes, detectedSecretCount, skippedItems, true);
     }
@@ -1268,7 +1331,8 @@ public final class MainActivity extends Activity {
         } else {
             builder.append("Security: clean, no known secret filenames detected\n");
         }
-        builder.append("Advice: ").append(readinessAdvice(score, bytes, secretCount, files));
+        builder.append("Advice: ").append(readinessAdvice(score, bytes, secretCount, files)).append("\n");
+        builder.append("Next: review included/skipped examples before sharing the archive");
         return builder.toString().trim();
     }
 
@@ -1676,6 +1740,25 @@ public final class MainActivity extends Activity {
         while (value.endsWith("_")) value = value.substring(0, value.length() - 1);
         if (value.isEmpty()) value = "project";
         return value.length() > 80 ? value.substring(0, 80) : value;
+    }
+
+
+    private String friendlyErrorMessage(Exception error) {
+        String message = safeMessage(error);
+        String lower = message.toLowerCase(Locale.US);
+        if (lower.contains("permission") || lower.contains("access") || lower.contains("denied")) {
+            return "Folder access was denied. Select the source folder again and grant access in Android picker.";
+        }
+        if (lower.contains("cannot read") || lower.contains("open") || lower.contains("stream")) {
+            return "Cannot read one of the selected files. Re-select the folder or remove unreadable files.";
+        }
+        if (lower.contains("nothing to package")) {
+            return "Nothing to package after exclusions. Select another folder or use Backup Safe mode.";
+        }
+        if (lower.contains("mediastore") || lower.contains("output")) {
+            return "Cannot create output file in Downloads/RepoForge. Check storage access and free space.";
+        }
+        return message;
     }
 
     private String safeMessage(Exception error) {

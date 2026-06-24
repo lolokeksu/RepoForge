@@ -124,7 +124,7 @@ Folder access is handled through Android Storage Access Framework.
 
 ```text
 Application ID: app.repoforge
-Version: 1.0
+Version: 1.0.1
 ```
 
 ## Build
@@ -135,6 +135,6 @@ gradle :app:assembleDebug
 
 ## Status
 
-RepoForge v1.0 is the first public clean release.
+RepoForge v1.0.1 is the current maintenance release.
 
 The app is intentionally minimal, offline, and focused on one job: creating clean project archives.
